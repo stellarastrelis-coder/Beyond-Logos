@@ -1,36 +1,59 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Circle Booth
 
-## Getting Started
+Website internal untuk circle Comifuro: tracking progress merch (WIP) tiap anggota, katalog stok + pricelist gabungan, dan kasir buat hari-H (dengan QR pembayaran statis + laporan pendapatan per anggota).
 
-First, run the development server:
+Dibangun dengan Next.js (App Router) + Supabase (Auth, Postgres, Storage).
+
+## 1. Setup Supabase (sekali di awal)
+
+1. Bikin project gratis di [supabase.com](https://supabase.com).
+2. Buka **SQL Editor** di dashboard Supabase, buat query baru, paste seluruh isi file
+   [`supabase/migrations/0001_init.sql`](./supabase/migrations/0001_init.sql), lalu **Run**.
+   File ini otomatis membuat semua tabel, aturan keamanan (RLS), fungsi checkout/void, dan
+   2 storage bucket (`product-images`, `payment-qr`) — nggak perlu setup manual lagi.
+3. Buka **Project Settings > API**, salin `Project URL` dan `anon public` key.
+4. Copy `.env.local.example` jadi `.env.local`, lalu isi dua value tadi:
+
+   ```bash
+   cp .env.local.example .env.local
+   ```
+
+5. Tambahkan akun tiap anggota circle secara manual di **Authentication > Users > Add user**.
+   Isi email + password. Kalau mau nama tampilan yang beda dari email, isi field
+   **User Metadata** dengan `{"display_name": "Nama Anggota"}` — kalau tidak diisi, nama akan
+   dipakai dari bagian sebelum `@` di email. Profile otomatis dibuat lewat trigger database.
+
+## 2. Jalankan lokal
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Buka [http://localhost:3000](http://localhost:3000) — akan diarahkan ke halaman login. Login
+pakai salah satu akun anggota yang dibuat di langkah sebelumnya.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 3. Struktur menu
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Dashboard** (`/`) — pricelist gabungan semua produk dari semua anggota, bisa dicari & difilter per anggota.
+- **WIP** (`/wip`) — tracking progress merch milik sendiri (privat), checklist 4 tahap: Draft → Warna → Test Print → Mass Production.
+- **Stok** (`/stock`) — CRUD produk milik sendiri: nama, harga, jumlah stok, gambar.
+- **Kasir** (`/kasir`) — pilih produk dari semua anggota, checkout, tampilkan QR pembayaran statis, ada riwayat transaksi + tombol batalkan (otomatis mengembalikan stok).
+- **Laporan** (`/laporan`) — rekap jumlah item terjual & pendapatan per anggota, filter semua waktu / hari ini.
+- **Settings** (`/settings`) — upload/ganti gambar QR pembayaran yang dipakai di menu Kasir.
 
-## Learn More
+## 4. Deploy
 
-To learn more about Next.js, take a look at the following resources:
+Deploy paling gampang lewat [Vercel](https://vercel.com/new) — hubungkan repo ini, isi
+environment variable `NEXT_PUBLIC_SUPABASE_URL` dan `NEXT_PUBLIC_SUPABASE_ANON_KEY` yang sama
+seperti di `.env.local`, lalu deploy.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Catatan teknis
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Next.js versi ini (16) memakai konvensi **`proxy.ts`** (dulu namanya `middleware.ts`) untuk
+  proteksi route — lihat `proxy.ts` dan `lib/supabase/proxy.ts`.
+- Checkout dan pembatalan transaksi jalan lewat Postgres function (`checkout_transaction`,
+  `void_transaction`) yang atomic, supaya aman kalau ada 2 device kasir jalan bersamaan di booth
+  dan tidak terjadi oversell.
+- Tidak ada halaman pendaftaran akun (self sign-up) secara sengaja — akun anggota circle dibuat
+  manual lewat Supabase dashboard karena sifatnya circle tertutup.
