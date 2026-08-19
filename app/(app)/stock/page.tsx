@@ -17,15 +17,15 @@ export default async function StockPage() {
 
   return (
     <div>
-      <h1 className="text-lg font-semibold text-neutral-900">Stok Saya</h1>
-      <p className="mt-1 text-sm text-neutral-500">
+      <h1 className="font-display text-2xl font-semibold text-brand-800">Stok Saya</h1>
+      <p className="mt-1 text-sm text-muted">
         Produk yang kamu jual di booth. Otomatis muncul di pricelist gabungan dan kasir.
       </p>
 
       <StockForm />
 
       {!items || items.length === 0 ? (
-        <p className="mt-8 text-sm text-neutral-500">Belum ada produk.</p>
+        <p className="mt-8 text-sm text-muted">Belum ada produk.</p>
       ) : (
         <div className="mt-6 flex flex-col gap-3">
           {(items as StockItem[]).map((item) => (

@@ -24,8 +24,8 @@ export default async function KasirPage() {
 
   return (
     <div>
-      <h1 className="text-lg font-semibold text-neutral-900">Kasir</h1>
-      <p className="mt-1 text-sm text-neutral-500">
+      <h1 className="font-display text-2xl font-semibold text-brand-800">Kasir</h1>
+      <p className="mt-1 text-sm text-muted">
         Pilih produk, checkout, lalu tunjukkan QR ke pembeli.
       </p>
 

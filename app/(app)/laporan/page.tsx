@@ -52,24 +52,28 @@ export default async function LaporanPage({
 
   return (
     <div>
-      <h1 className="text-lg font-semibold text-neutral-900">Laporan Penjualan</h1>
-      <p className="mt-1 text-sm text-neutral-500">
+      <h1 className="font-display text-2xl font-semibold text-brand-800">Laporan Penjualan</h1>
+      <p className="mt-1 text-sm text-muted">
         Rekap item terjual dan pendapatan per anggota (transaksi yang dibatalkan tidak dihitung).
       </p>
 
       <div className="mt-4 flex gap-2">
         <Link
           href="/laporan"
-          className={`rounded-lg px-3 py-1.5 text-sm font-medium ${
-            !isToday ? "bg-neutral-900 text-white" : "border border-neutral-300 text-neutral-600"
+          className={`rounded-full px-3 py-1.5 text-sm font-medium ${
+            !isToday
+              ? "brand-gradient text-white shadow-sm shadow-brand-300/50"
+              : "border border-brand-200 text-muted hover:bg-brand-50"
           }`}
         >
           Semua waktu
         </Link>
         <Link
           href="/laporan?range=today"
-          className={`rounded-lg px-3 py-1.5 text-sm font-medium ${
-            isToday ? "bg-neutral-900 text-white" : "border border-neutral-300 text-neutral-600"
+          className={`rounded-full px-3 py-1.5 text-sm font-medium ${
+            isToday
+              ? "brand-gradient text-white shadow-sm shadow-brand-300/50"
+              : "border border-brand-200 text-muted hover:bg-brand-50"
           }`}
         >
           Hari ini
@@ -77,11 +81,11 @@ export default async function LaporanPage({
       </div>
 
       {rows.length === 0 ? (
-        <p className="mt-8 text-sm text-neutral-500">Belum ada penjualan.</p>
+        <p className="mt-8 text-sm text-muted">Belum ada penjualan.</p>
       ) : (
-        <div className="mt-6 overflow-hidden rounded-xl border border-neutral-200 bg-white">
+        <div className="mt-6 overflow-hidden rounded-2xl border border-brand-100 bg-white shadow-sm shadow-brand-100/50">
           <table className="w-full text-sm">
-            <thead className="bg-neutral-50 text-left text-xs text-neutral-500">
+            <thead className="bg-brand-50 text-left text-xs text-muted">
               <tr>
                 <th className="px-4 py-2 font-medium">Anggota</th>
                 <th className="px-4 py-2 font-medium">Item Terjual</th>
@@ -90,23 +94,23 @@ export default async function LaporanPage({
             </thead>
             <tbody>
               {rows.map(([ownerId, stats]) => (
-                <tr key={ownerId} className="border-t border-neutral-100">
-                  <td className="px-4 py-3 font-medium text-neutral-900">
+                <tr key={ownerId} className="border-t border-brand-100">
+                  <td className="px-4 py-3 font-medium text-ink">
                     {nameById.get(ownerId) ?? "Tidak diketahui"}
                   </td>
-                  <td className="px-4 py-3 text-neutral-600">{stats.itemsSold}</td>
-                  <td className="px-4 py-3 text-right font-medium text-neutral-900">
+                  <td className="px-4 py-3 text-muted">{stats.itemsSold}</td>
+                  <td className="px-4 py-3 text-right font-medium text-brand-700">
                     {formatRupiah(stats.revenue)}
                   </td>
                 </tr>
               ))}
             </tbody>
             <tfoot>
-              <tr className="border-t border-neutral-200 bg-neutral-50">
-                <td className="px-4 py-3 font-semibold text-neutral-900" colSpan={2}>
+              <tr className="border-t border-brand-100 bg-brand-50">
+                <td className="px-4 py-3 font-semibold text-ink" colSpan={2}>
                   Total
                 </td>
-                <td className="px-4 py-3 text-right font-semibold text-neutral-900">
+                <td className="px-4 py-3 text-right font-semibold text-brand-800">
                   {formatRupiah(grandTotal)}
                 </td>
               </tr>

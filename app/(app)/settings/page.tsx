@@ -10,14 +10,14 @@ export default async function SettingsPage() {
 
   return (
     <div>
-      <h1 className="text-lg font-semibold text-neutral-900">Settings</h1>
-      <p className="mt-1 text-sm text-neutral-500">
+      <h1 className="font-display text-2xl font-semibold text-brand-800">Settings</h1>
+      <p className="mt-1 text-sm text-muted">
         Gambar QR pembayaran statis yang ditampilkan pas checkout di Kasir.
       </p>
 
-      <div className="mt-6 max-w-sm rounded-xl border border-neutral-200 bg-white p-4">
-        <p className="text-sm font-medium text-neutral-900">QR saat ini</p>
-        <div className="mt-2 flex h-56 w-56 items-center justify-center overflow-hidden rounded-lg bg-neutral-100">
+      <div className="mt-6 max-w-sm rounded-2xl border border-brand-100 bg-white p-4 shadow-sm shadow-brand-100/50">
+        <p className="text-sm font-medium text-ink">QR saat ini</p>
+        <div className="mt-2 flex h-56 w-56 items-center justify-center overflow-hidden rounded-xl bg-brand-50">
           {settings?.qr_image_url ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
@@ -26,7 +26,7 @@ export default async function SettingsPage() {
               className="h-full w-full object-contain"
             />
           ) : (
-            <span className="text-xs text-neutral-400">Belum ada QR</span>
+            <span className="text-xs text-brand-300">Belum ada QR</span>
           )}
         </div>
 
@@ -34,7 +34,7 @@ export default async function SettingsPage() {
           <input name="image" type="file" accept="image/*" required className="text-sm" />
           <button
             type="submit"
-            className="rounded-lg bg-neutral-900 px-4 py-2 text-sm font-medium text-white"
+            className="brand-gradient rounded-xl px-4 py-2 text-sm font-medium text-white shadow-sm shadow-brand-300/40"
           >
             Simpan QR
           </button>

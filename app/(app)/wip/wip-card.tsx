@@ -16,15 +16,15 @@ export default function WipCard({ item }: { item: WipItem }) {
   }
 
   return (
-    <div className="rounded-xl border border-neutral-200 bg-white p-4">
+    <div className="rounded-2xl border border-brand-100 bg-white p-4 shadow-sm shadow-brand-100/50">
       <div className="flex items-start justify-between gap-2">
         <div>
-          <p className="font-medium text-neutral-900">{item.name}</p>
-          {item.notes && <p className="text-sm text-neutral-500">{item.notes}</p>}
+          <p className="font-medium text-ink">{item.name}</p>
+          {item.notes && <p className="text-sm text-muted">{item.notes}</p>}
         </div>
         <button
           onClick={() => startTransition(() => deleteWipItem(item.id))}
-          className="shrink-0 text-xs text-neutral-400 hover:text-red-600"
+          className="shrink-0 text-xs text-brand-300 hover:text-red-600"
         >
           Hapus
         </button>
@@ -44,15 +44,15 @@ export default function WipCard({ item }: { item: WipItem }) {
               <span
                 className={`flex h-6 w-6 items-center justify-center rounded-full border text-xs ${
                   done
-                    ? "border-neutral-900 bg-neutral-900 text-white"
-                    : "border-neutral-300 text-neutral-400"
+                    ? "brand-gradient border-transparent text-white"
+                    : "border-brand-200 text-brand-300"
                 }`}
               >
                 {done ? "✓" : i + 1}
               </span>
               <span
                 className={`text-center text-[10px] leading-tight ${
-                  done ? "text-neutral-900" : "text-neutral-400"
+                  done ? "font-medium text-brand-700" : "text-brand-300"
                 }`}
               >
                 {stage.label}

@@ -17,8 +17,8 @@ export default async function DashboardPage() {
 
   return (
     <div>
-      <h1 className="text-lg font-semibold text-neutral-900">Pricelist Circle</h1>
-      <p className="mt-1 text-sm text-neutral-500">
+      <h1 className="font-display text-2xl font-semibold text-brand-800">Pricelist Circle</h1>
+      <p className="mt-1 text-sm text-muted">
         Semua produk dari semua anggota, lengkap dengan harga dan sisa stok.
       </p>
       <DashboardClient

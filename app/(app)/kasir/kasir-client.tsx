@@ -79,7 +79,7 @@ export default function KasirClient({
           placeholder="Cari produk..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full max-w-xs rounded-lg border border-neutral-300 px-3 py-2 text-sm outline-none focus:border-neutral-500"
+          className="w-full max-w-xs rounded-xl border border-brand-200 px-3 py-2 text-sm outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-200"
         />
         <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3">
           {filtered.map((item) => {
@@ -90,14 +90,14 @@ export default function KasirClient({
                 key={item.id}
                 disabled={soldOut || inCart >= item.quantity}
                 onClick={() => addToCart(item)}
-                className="rounded-xl border border-neutral-200 bg-white p-3 text-left disabled:cursor-not-allowed disabled:opacity-50"
+                className="rounded-2xl border border-brand-100 bg-white p-3 text-left shadow-sm shadow-brand-100/50 transition-shadow hover:shadow-md hover:shadow-brand-200/50 disabled:cursor-not-allowed disabled:opacity-50"
               >
-                <p className="truncate text-sm font-medium text-neutral-900">{item.name}</p>
-                <p className="text-xs text-neutral-500">{item.profiles?.display_name}</p>
-                <p className="mt-1 text-sm font-semibold text-neutral-900">
+                <p className="truncate text-sm font-medium text-ink">{item.name}</p>
+                <p className="text-xs text-muted">{item.profiles?.display_name}</p>
+                <p className="mt-1 text-sm font-semibold text-brand-700">
                   {formatRupiah(item.price)}
                 </p>
-                <p className="text-xs text-neutral-400">
+                <p className="text-xs text-brand-300">
                   {soldOut ? "Habis" : `Stok ${item.quantity - inCart}`}
                 </p>
               </button>
@@ -106,28 +106,28 @@ export default function KasirClient({
         </div>
       </div>
 
-      <div className="rounded-xl border border-neutral-200 bg-white p-4">
-        <h2 className="text-sm font-semibold text-neutral-900">Keranjang</h2>
+      <div className="h-fit rounded-2xl border border-brand-100 bg-white p-4 shadow-sm shadow-brand-100/50">
+        <h2 className="font-display text-base font-semibold text-brand-800">Keranjang</h2>
         {Object.keys(cart).length === 0 ? (
-          <p className="mt-3 text-sm text-neutral-500">Belum ada item dipilih.</p>
+          <p className="mt-3 text-sm text-muted">Belum ada item dipilih.</p>
         ) : (
           <div className="mt-3 flex flex-col gap-3">
             {Object.values(cart).map(({ item, quantity }) => (
               <div key={item.id} className="flex items-center gap-2 text-sm">
                 <div className="flex-1">
-                  <p className="truncate font-medium text-neutral-900">{item.name}</p>
-                  <p className="text-xs text-neutral-500">{formatRupiah(item.price)}</p>
+                  <p className="truncate font-medium text-ink">{item.name}</p>
+                  <p className="text-xs text-muted">{formatRupiah(item.price)}</p>
                 </div>
                 <button
                   onClick={() => changeQty(item.id, -1)}
-                  className="h-6 w-6 rounded border border-neutral-300 text-neutral-600"
+                  className="h-6 w-6 rounded-full border border-brand-200 text-brand-600 hover:bg-brand-50"
                 >
                   -
                 </button>
                 <span className="w-4 text-center">{quantity}</span>
                 <button
                   onClick={() => changeQty(item.id, 1)}
-                  className="h-6 w-6 rounded border border-neutral-300 text-neutral-600"
+                  className="h-6 w-6 rounded-full border border-brand-200 text-brand-600 hover:bg-brand-50"
                 >
                   +
                 </button>
@@ -136,9 +136,9 @@ export default function KasirClient({
           </div>
         )}
 
-        <div className="mt-4 flex items-center justify-between border-t border-neutral-200 pt-3">
-          <span className="text-sm font-medium text-neutral-600">Total</span>
-          <span className="text-base font-semibold text-neutral-900">{formatRupiah(total)}</span>
+        <div className="mt-4 flex items-center justify-between border-t border-brand-100 pt-3">
+          <span className="text-sm font-medium text-muted">Total</span>
+          <span className="brand-gradient-text text-lg font-semibold">{formatRupiah(total)}</span>
         </div>
 
         {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
@@ -146,17 +146,17 @@ export default function KasirClient({
         <button
           onClick={handleCheckout}
           disabled={checkingOut || Object.keys(cart).length === 0}
-          className="mt-4 w-full rounded-lg bg-neutral-900 px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
+          className="brand-gradient mt-4 w-full rounded-xl px-4 py-2.5 text-sm font-medium text-white shadow-md shadow-brand-300/40 disabled:opacity-50"
         >
           {checkingOut ? "Memproses..." : "Checkout"}
         </button>
       </div>
 
       {paidTotal !== null && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-          <div className="w-full max-w-sm rounded-2xl bg-white p-6 text-center">
-            <p className="text-sm text-neutral-500">Total tagihan</p>
-            <p className="mt-1 text-2xl font-semibold text-neutral-900">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-brand-900/50 p-4">
+          <div className="w-full max-w-sm rounded-3xl bg-white p-6 text-center shadow-2xl">
+            <p className="text-sm text-muted">Total tagihan</p>
+            <p className="brand-gradient-text mt-1 text-3xl font-semibold">
               {formatRupiah(paidTotal)}
             </p>
             <div className="mt-4 flex justify-center">
@@ -164,14 +164,14 @@ export default function KasirClient({
                 // eslint-disable-next-line @next/next/no-img-element
                 <img src={qrImageUrl} alt="QR pembayaran" className="h-64 w-64 object-contain" />
               ) : (
-                <p className="text-sm text-neutral-500">
+                <p className="text-sm text-muted">
                   QR pembayaran belum diupload. Atur di menu Settings.
                 </p>
               )}
             </div>
             <button
               onClick={() => setPaidTotal(null)}
-              className="mt-4 rounded-lg bg-neutral-900 px-4 py-2 text-sm font-medium text-white"
+              className="brand-gradient mt-4 rounded-xl px-4 py-2.5 text-sm font-medium text-white shadow-md shadow-brand-300/40"
             >
               Selesai
             </button>

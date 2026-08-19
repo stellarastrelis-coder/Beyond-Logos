@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { logout } from "@/app/(app)/actions";
@@ -17,8 +18,15 @@ export default function Nav({ displayName }: { displayName: string }) {
   const pathname = usePathname();
 
   return (
-    <header className="border-b border-neutral-200 bg-white">
+    <header className="sticky top-0 z-40 border-b border-brand-100 bg-white/90 backdrop-blur">
       <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-3">
+        <Link href="/" className="flex items-center gap-2 shrink-0">
+          <Image src="/mascot-icon.png" alt="" width={32} height={32} className="h-8 w-8" />
+          <span className="font-display text-lg font-semibold tracking-tight text-brand-800">
+            Beyond Logos
+          </span>
+        </Link>
+
         <div className="flex flex-wrap items-center gap-1">
           {LINKS.map((link) => {
             const active =
@@ -27,10 +35,10 @@ export default function Nav({ displayName }: { displayName: string }) {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`rounded-lg px-3 py-1.5 text-sm font-medium transition-colors ${
+                className={`rounded-full px-3 py-1.5 text-sm font-medium transition-colors ${
                   active
-                    ? "bg-neutral-900 text-white"
-                    : "text-neutral-600 hover:bg-neutral-100"
+                    ? "brand-gradient text-white shadow-sm shadow-brand-300/50"
+                    : "text-muted hover:bg-brand-50 hover:text-brand-700"
                 }`}
               >
                 {link.label}
@@ -39,11 +47,11 @@ export default function Nav({ displayName }: { displayName: string }) {
           })}
         </div>
         <div className="flex items-center gap-3">
-          <span className="text-sm text-neutral-500">{displayName}</span>
+          <span className="text-sm text-muted">{displayName}</span>
           <form action={logout}>
             <button
               type="submit"
-              className="rounded-lg border border-neutral-300 px-3 py-1.5 text-sm text-neutral-700 hover:bg-neutral-100"
+              className="rounded-full border border-brand-200 px-3 py-1.5 text-sm text-brand-700 hover:bg-brand-50"
             >
               Keluar
             </button>
